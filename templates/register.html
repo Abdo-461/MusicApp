@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <title>Musicsss</title>
+
+
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+<h4>Welcome to the Musicsss where you can listen to your favorite music!</h4>
+<h5> Looks like you dont have an account! Sign up now!!</h5>
+
+
+<!-- signup form -->
+<div>
+  <form action="/register", method="POST">
+    
+    <input type="text", name="email", placeholder="email">
+    <input type="text", name="username", placeholder="username">
+    <input type="password", name="password", placeholder="password">
+
+    <button type="submit" , name="submit">Sign up</button>
+  </form>
+  
+  {% for message in get_flashed_messages() %}
+      <p style="color:red">{{ message }}</p>
+      {% endfor %}
+  
+</div>
+
+</body>
+</html>

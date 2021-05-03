@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+  <title>Musicss-Dashbaord</title>
+
+
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <style>
+    div.containerHeading {
+      width: 600px;
+      height: 100px;
+      margin: auto;
+    }
+
+    div.queryArea{
+      margin-top: 250px;
+    }
+    
+</style>    
+
+</head>
+<body>
+
+<h4>Welcome to your Dashboard</h4>
+<div class="containerHeading">
+  <button style="float: right"><a href="{{ url_for('logout') }}">Logout</a></button>
+
+  <h3 style="float: left" class="UserName">Greetings {{username}}</h3>
+</div>
+
+<div class="containerBody">
+
+  <h5>Music Subscriptions</h5>
+    <dd>
+      {% for subscribed in subscriptions %}
+        <h3>Title</h3>
+         <p>{{subscribed.title}}</p>
+        <h3>Artist</h3>
+         <p>{{subscribed.artist}}</p>
+        <h3>Year</h3>
+         <p>{{subscribed.year}}</p>
+         <h3>Image</h3>
+         <img src="http://musicimages6969.s3.amazonaws.com/{{subscribed.image}}">
+        
+         <form action="/remove" , method="POST">
+          <input type="hidden" value="{{subscribed.title}}" name="titleid"/>
+          <button type="remove" , name="remove">Remove</button>
+        </form>
+</dd>
+         <h2>~~~~~~~~~~~~~~~~~~</h2>
+      {% endfor %}
+
+
+  <!-- query area -->
+  <div class='queryArea'>
+    <h4>Query Area</h4>
+
+    <form action='/query' , method="POST">
+    
+      <input type="title", name="title", placeholder="title">
+      <input type="artist", name="artist", placeholder="artist">
+      <input type="year", name="year", placeholder="year">
+
+      <button type="submit" , name="submit">Query</button>
+    
+    </form>
+
+    <!-- display results of query -->
+    <h5>Music List Queried</h5>
+    <dd>
+      {% for songs in music %}
+        <h3>Title</h3>
+         <p>{{songs.title}}</p>
+        <h3>Artist</h3>
+         <p>{{songs.artist}}</p>
+        <h3>Year</h3>
+         <p>{{songs.year}}</p>
+        <h3>Image</h3>
+         <img src="http://musicimages6969.s3.amazonaws.com/{{image}}">
+
+         <form action='/subscription' , method="POST">
+          <input type="hidden" value="{{songs.title}}" name="titleSub"/>
+          <input type="hidden" value="{{songs.artist}}" name="artistSub"/>
+          <input type="hidden" value="{{songs.year}}" name="yearSub"/>
+          <input type="hidden" value="{{image}}" name="imageSub"/>
+          <button type="subscribe" , name="subscribe">Subscribe</button>
+        </form>
+
+         <h2>~~~~~~~~~~~~~~~~~~</h2>
+      {% endfor %}
+    </dd>
+    {% for message in get_flashed_messages() %}
+      <p style="color:red">{{ message }}</p>
+      {% endfor %}
+
+  </div>
+  
+  
+</div>
+
+</body>
+</html>
